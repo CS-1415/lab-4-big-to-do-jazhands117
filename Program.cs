@@ -1,11 +1,13 @@
-﻿ class TodoListApp {
-    //private TodoList _tasks; //can't be found//
+﻿using System.ComponentModel;
+
+class TodoListApp {
+    private TodoList _tasks; //TodoList is a separate class, built below//
     private bool _showHelp = true;
     private bool _insertMode = true;
     private bool _quit = false;
 
-    public TodoListApp(/*TodoList tasks*/) {
-        //_tasks = tasks; //doesn't exist//
+    public TodoListApp(TodoList tasks) {
+        _tasks = tasks; 
     }
 
     public void Run() {
@@ -17,7 +19,7 @@
     }
 
     public void Display() {
-        //DisplayTasks(); //includes _tasks, won't work//
+        DisplayTasks();
         if (_showHelp) {
             DisplayHelp();
         }
@@ -27,23 +29,23 @@
         Console.WriteLine("----------------------------");
     }
 
-    /*public string MakeRow(int i) {
+    public string MakeRow(int i) {
         Task task = _tasks.GetTask(i);
         string arrow = "  ";
         if (task == _tasks.CurrentTask) arrow = "->";
         string check = " ";
         if (task.Status == CompletionStatus.Done) check = "X";
         return $"{arrow} [{check}] {task.Title}";
-    }*/ //_tasks doesn't exist//
+    }
 
-    /*public void DisplayTasks() {
+    public void DisplayTasks() {
         DisplayBar();
         Console.WriteLine("Tasks:");
         for (int i = 0; i < _tasks.Length; i++) {
             Console.WriteLine(MakeRow(i));
         }
         DisplayBar();
-    }*/ //again, _tasks//
+    }
 
     public void DisplayHelp() {
         Console.WriteLine(
@@ -112,8 +114,45 @@
     }
   }
 
-  class Program {
-    static void Main() {
+//Building the actual list//
+class TodoList
+{
+    public int Length => 0; //starts with no tasks//
+    public Task CurrentTask => null; //exists as placeholder (empty task)//
+    public Task GetTask(int i) => new Task("Put tasks here!");
+}
+
+//tasks themselves//
+class Task
+{
+    //using nomenclature from MakeRow//
+    public string Title { get; set; }
+    public CompletionStatus Status { get; set; } //enum built below Main//
+    public Task(string title)
+    {
+        Title = title;
+        Status = CompletionStatus.NotDone;
+    }
+    public void ToggleStatus()
+    {
+        if (Status == CompletionStatus.Done)
+        {
+            Status = CompletionStatus.NotDone;
+        }
+        else
+        {
+            Status = CompletionStatus.Done;
+        }
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
         //new TodoListApp(new TodoList()).Run();
     }
-  }
+}
+
+//completion enum, like the older labs :)//
+enum CompletionStatus { NotDone, Done }
