@@ -1,9 +1,13 @@
-﻿using System.ComponentModel;
+﻿//Jay Johnson Lab 4 September 21, 2025//
+//this displays a Todo List and allows the user to select, input, and delete tasks//
+//it also allows reorganizing of the list itself :)//
+
+using System.ComponentModel;
 
 class TodoListApp {
     private TodoList _tasks; //TodoList is a separate class, built below//
     private bool _showHelp = true;
-    private bool _insertMode = true;
+    private bool _insertMode = false; //doesn't start in a forever title loop//
     private bool _quit = false;
 
     public TodoListApp(TodoList tasks) {
@@ -66,15 +70,19 @@ class TodoListApp {
     }
 
     public void ProcessUserInput() {
-        if (_insertMode) {
+        if (_insertMode)
+        {
             string taskTitle = GetTitle();
-            if (taskTitle.Length == 0) {
-                _insertMode = false;
-            } else {
-                _tasks.Insert(taskTitle);
+            if (taskTitle.Length > 0)
+            {
+                _tasks.Insert(taskTitle); //user inputs title if it's not null//
             }
-        } else {
-            switch (Console.ReadKey(true).Key) {
+            _insertMode = false; //returns to menu//
+        }
+        else
+        {
+            switch (Console.ReadKey(true).Key)
+            {
                 case ConsoleKey.Escape:
                     _quit = true;
                     break;
@@ -285,7 +293,7 @@ class Program
 {
     static void Main()
     {
-        //new TodoListApp(new TodoList()).Run();
+        new TodoListApp(new TodoList()).Run();
     }
 }
 
