@@ -71,7 +71,7 @@ class TodoListApp {
             if (taskTitle.Length == 0) {
                 _insertMode = false;
             } else {
-                //_tasks.Insert(taskTitle);
+                _tasks.Insert(taskTitle);
             }
         } else {
             switch (Console.ReadKey(true).Key) {
@@ -79,10 +79,10 @@ class TodoListApp {
                     _quit = true;
                     break;
                 case ConsoleKey.UpArrow:
-                    //_tasks.SelectPrevious();
+                    _tasks.SelectPrevious();
                     break;
                 case ConsoleKey.DownArrow:
-                    //_tasks.SelectNext();
+                    _tasks.SelectNext();
                     break;
                 case ConsoleKey.LeftArrow:
                     //_tasks.SwapWithPrevious();
@@ -119,6 +119,7 @@ class TodoList
 {
     //create list to store new tasks//
     private List<Task> _tasks = new List<Task>();
+    private int _currentIndex = 0; //counts for selection//
     public int Length => _tasks.Count;
     public Task CurrentTask //takes care of null possibility//
     {
@@ -139,6 +140,45 @@ class TodoList
     public void Insert(string title)
     {
         _tasks.Add(new Task(title));
+        //automatically selects first task//
+        if (_tasks.Count == 1)
+        {
+            _currentIndex = 0;
+        }
+    }
+
+    public void SelectPrevious()
+    {
+        if (_tasks.Count == 0)
+        {
+            return; //if empty, no selection occurs)
+        }
+        //wrapping around task list//
+        if (_currentIndex == 0) //starts at front//
+        {
+            _currentIndex = _tasks.Count - 1; //wraps to end//
+        }
+        else
+        {
+            _currentIndex--; //goes UP list//
+        }
+    }
+
+    public void SelectNext()
+    {
+        if (_tasks.Count == 0)
+        {
+            return; //no selection if empty//
+        }
+        //wrapping//
+        if (_currentIndex == _tasks.Count - 1) //starts at end
+        {
+            _currentIndex = 0; //wraps to front//
+        }
+        else
+        {
+            _currentIndex++; //goes DOWN list//
+        }
     }
 }
 
