@@ -85,10 +85,10 @@ class TodoListApp {
                     _tasks.SelectNext();
                     break;
                 case ConsoleKey.LeftArrow:
-                    //_tasks.SwapWithPrevious();
+                    _tasks.SwapWithPrevious();
                     break;
                 case ConsoleKey.RightArrow:
-                    //_tasks.SwapWithNext();
+                    _tasks.SwapWithNext();
                     break;
                 case ConsoleKey.I:
                     _insertMode = true;
@@ -179,6 +179,55 @@ class TodoList
         {
             _currentIndex++; //goes DOWN list//
         }
+    }
+
+    public void SwapWithPrevious()
+    {
+        if (_tasks.Count < 2)
+        {
+            return; //nothing to swap if just one task//
+        }
+
+        int prevIndex; //build variable for him//
+        if (_currentIndex == 0)
+        {
+            prevIndex = _tasks.Count - 1; //wrap to end//
+        }
+        else
+        {
+            prevIndex = _currentIndex - 1;
+        }
+
+        //had to dig 'swap logic' out of reddit. took a WHILE to figure out//
+        Task saveVariable = _tasks[_currentIndex]; //use temp variable to store current task//
+        _tasks[_currentIndex] = _tasks[prevIndex]; //places previous into current slot//
+        _tasks[prevIndex] = saveVariable; //gives previous current's original task//
+
+        _currentIndex = prevIndex; //swaps indices//
+    }
+
+    public void SwapWithNext()
+    {
+        if (_tasks.Count < 2)
+        {
+            return; //no swappies//
+        }
+        //same process//
+        int nextIndex;
+        if (_currentIndex == _tasks.Count - 1) //starts at end//
+        {
+            nextIndex = 0; //wraps to front//
+        }
+        else
+        {
+            nextIndex = _currentIndex + 1; //increase//
+        }
+
+        Task saveVariable = _tasks[_currentIndex];
+        _tasks[_currentIndex] = _tasks[nextIndex];
+        _tasks[nextIndex] = saveVariable;
+
+        _currentIndex = nextIndex;
     }
 }
 
