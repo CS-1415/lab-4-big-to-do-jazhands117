@@ -105,7 +105,7 @@ class TodoListApp {
                     break;
                 case ConsoleKey.Delete:
                 case ConsoleKey.Backspace:
-                    //_tasks.DeleteSelected();
+                    _tasks.DeleteSelected();
                     break;
                 default:
                     break;
@@ -137,6 +137,7 @@ class TodoList
     }
     public Task GetTask(int i) => _tasks[i];
 
+    //adds tasks//
     public void Insert(string title)
     {
         _tasks.Add(new Task(title));
@@ -147,6 +148,7 @@ class TodoList
         }
     }
 
+    //changing selected task//
     public void SelectPrevious()
     {
         if (_tasks.Count == 0)
@@ -181,6 +183,7 @@ class TodoList
         }
     }
 
+    //swapping tasks with each other//
     public void SwapWithPrevious()
     {
         if (_tasks.Count < 2)
@@ -228,6 +231,29 @@ class TodoList
         _tasks[nextIndex] = saveVariable;
 
         _currentIndex = nextIndex;
+    }
+
+    //deletes selected task//
+    //NOTE: ChatGPT gave me the 'RemoveAt', cause google was useless//
+    //I asked it "how do I remove a specific list item from the console"//
+    public void DeleteSelected()
+    {
+        if (_tasks.Count == 0)
+        {
+            return; //nothing to remove//
+        }
+
+        _tasks.RemoveAt(_currentIndex);
+
+        //adjusting index//
+        if (_tasks.Count == 0)
+        {
+            _currentIndex = 0; //empty list = empty index//
+        }
+        else if (_currentIndex >= _tasks.Count)
+        {
+            _currentIndex = _tasks.Count - 1; //selection wraps to last task//
+        }
     }
 }
 
