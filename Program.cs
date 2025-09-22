@@ -117,9 +117,29 @@ class TodoListApp {
 //Building the actual list//
 class TodoList
 {
-    public int Length => 0; //starts with no tasks//
-    public Task CurrentTask => null; //exists as placeholder (empty task)//
-    public Task GetTask(int i) => new Task("Put tasks here!");
+    //create list to store new tasks//
+    private List<Task> _tasks = new List<Task>();
+    public int Length => _tasks.Count;
+    public Task CurrentTask //takes care of null possibility//
+    {
+        get
+        {
+            if (_tasks.Count > 0)
+            {
+                return _tasks[0];
+            }
+            else
+            {
+                return null;
+            }
+        }
+    }
+    public Task GetTask(int i) => _tasks[i];
+
+    public void Insert(string title)
+    {
+        _tasks.Add(new Task(title));
+    }
 }
 
 //tasks themselves//
