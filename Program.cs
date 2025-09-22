@@ -94,14 +94,14 @@ class TodoListApp {
                     _insertMode = true;
                     break;
                 case ConsoleKey.E:
-                    //_tasks.CurrentTask.Title = GetTitle();
+                    _tasks.CurrentTask.Title = GetTitle();
                     break;
                 case ConsoleKey.H:
                     _showHelp = !_showHelp;
                     break;
                 case ConsoleKey.Enter:
                 case ConsoleKey.Spacebar:
-                    //_tasks.CurrentTask.ToggleStatus();
+                    _tasks.CurrentTask.ToggleStatus();
                     break;
                 case ConsoleKey.Delete:
                 case ConsoleKey.Backspace:
@@ -127,11 +127,11 @@ class TodoList
         {
             if (_tasks.Count > 0)
             {
-                return _tasks[0];
+                return _tasks[_currentIndex];
             }
             else
             {
-                return null;
+                return new Task("Please input a task!");
             }
         }
     }
